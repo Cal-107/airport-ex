@@ -16,7 +16,7 @@
         @include('navbar')
     </header>
 
-    <main class="vh-100">
+    <main class="vh-100 container">
         @yield('content')
     </main>
 

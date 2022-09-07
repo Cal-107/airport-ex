@@ -12,14 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('passengers', function (Blueprint $table) {
-            $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->date('birthdate');
-            $table->unsignedBigInteger('flight_id')->nullable();
-            $table->string('code')->nullable();
-            $table->timestamps();
+        Schema::table('passengers', function (Blueprint $table) {
+            $table
+                ->foreign('flight_id')
+                ->references('id')
+                ->on('flights');
         });
     }
 
@@ -30,6 +27,8 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('passengers');
+        Schema::table('passengers', function (Blueprint $table) {
+            $table->dropColumn('flight_id');
+        });
     }
 };

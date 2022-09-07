@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PassengerController;
+use App\Http\Controllers\FlightController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
+
+// ---> Passenger section
+Route::resource('passengers', PassengerController::class);
+
+//--> Flight section
+Route::resource('flights', FlightController::class);

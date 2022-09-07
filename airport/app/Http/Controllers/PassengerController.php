@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Passenger;
+use App\Models\Flight;
 use Illuminate\Http\Request;
 
 class PassengerController extends Controller
@@ -14,7 +15,8 @@ class PassengerController extends Controller
      */
     public function index()
     {
-        //
+        $passengers = Passenger::with('flight')->get();
+        return view('passengers.index', compact('passengers'));
     }
 
     /**
@@ -24,7 +26,7 @@ class PassengerController extends Controller
      */
     public function create()
     {
-        //
+        return view('passengers.create');
     }
 
     /**
@@ -35,7 +37,24 @@ class PassengerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'firstname' => 'required|min: 3',
+            'lastname' => 'required',
+            'birthdate' => 'required',
+            'flight_id' => 'nullable|numeric',
+            'code' => 'nullable',
+        ]);
+
+        $passenger = new Passenger();
+        $passenger->firstname = $request->firstname;
+        $passenger->lastname = $request->lastname;
+        $passenger->birthdate = $request->birthdate;
+        $passenger->flight_id = $request->flight_id;
+        $passenger->code= $request->code;
+
+        $passenger->save();
+
+        return redirect()->route('passengers.index');
     }
 
     /**
@@ -46,9 +65,8 @@ class PassengerController extends Controller
      */
     public function show(Passenger $passenger)
     {
-        //
+        return view('passengers.show', compact('passenger'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -57,7 +75,7 @@ class PassengerController extends Controller
      */
     public function edit(Passenger $passenger)
     {
-        //
+        return view('passengers.edit', compact('passenger'));
     }
 
     /**
@@ -69,7 +87,9 @@ class PassengerController extends Controller
      */
     public function update(Request $request, Passenger $passenger)
     {
-        //
+        $passenger->fill($request->all());
+        $passenger->save();
+        return redirect()->route('passengers.index');
     }
 
     /**
@@ -80,6 +100,7 @@ class PassengerController extends Controller
      */
     public function destroy(Passenger $passenger)
     {
-        //
+        $passenger->delete();
+        return redirect()->route('passengers.index');
     }
 }

@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Passenger extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'firstname',
-        'lastname',
-        'birthdate',
-        'flight_id',
-        'code',
-    ];
+    
+    protected $fillable = ['firstname', 'lastname', 'birthdate', 'flight_id', 'code'];
+
+    public function flight() {
+        return $this->belongsTo(Flight::class);
+    }
 }

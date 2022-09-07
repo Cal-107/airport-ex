@@ -20,7 +20,6 @@ class PassengerFactory extends Factory
             'firstname' => $this->faker->firstName(),
             'lastname' => $this->faker->lastName(),
             'birthdate' => $this->faker->date(),
-            'flight_id' => $this->faker->randomNumber(8, true),
             'code' => $this->faker->regexify('[A-Z]{3}[0-9]{10}'),
         ];
     }
